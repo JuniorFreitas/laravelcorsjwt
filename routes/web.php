@@ -14,3 +14,14 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group(['prefix' => 'api', 'middleware' => 'cors'], function(){
+    Route::post('login','AuthController@login');
+    Route::group(['middleware' => 'jwt.auth'],function(){
+        Route::get('produtos', 'ProdutoController@produtos');
+    });
+});
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');
